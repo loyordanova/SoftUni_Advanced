@@ -1,0 +1,5 @@
+text = list(input())
+
+while text:
+    char = text.pop()
+    print(char, end='')
