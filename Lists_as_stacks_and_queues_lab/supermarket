@@ -1,0 +1,14 @@
+from collections import deque
+
+customers_line = deque()
+name = input()
+
+while name != 'End':
+    if name == 'Paid':
+        while customers_line:
+            print(customers_line.popleft())
+    else:
+        customers_line.append(name)
+    name = input()
+
+print(f'{len(customers_line)} people remaining.')
