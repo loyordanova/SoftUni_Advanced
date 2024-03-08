@@ -1,0 +1,29 @@
+from collections import deque
+
+box_of_clothes = deque([int(x) for x in input().split()])
+capacity = int(input())
+
+rack_count = 0
+sum_values = 0
+
+while box_of_clothes:
+    if sum_values >= capacity:
+        rack_count += 1
+        sum_values = 0
+    else:
+        if box_of_clothes[-1] + sum_values <= capacity:
+            current_value = box_of_clothes.pop()
+            sum_values += current_value
+        else:
+            current_value = box_of_clothes.pop()
+            rack_count += 1
+            sum_values = current_value
+if sum_values != 0:
+    rack_count += 1
+print(rack_count)
+
+# while box_of_clothes:
+    # rack_count += 1
+   # current_rack_capacity = capacity
+   # while box_of_clothes and box_of_clothes[1] <= current_rack_capacity:
+       # current_rack_capacity -= box_of_clothes.pop()
