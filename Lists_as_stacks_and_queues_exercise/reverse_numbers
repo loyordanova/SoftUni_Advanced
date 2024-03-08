@@ -1,0 +1,19 @@
+from collections import deque
+
+txt = deque(input().split())
+
+for i in range(len(txt)):
+    item = txt.pop()
+    print(item, end=' ')
+
+
+# numbers = [x for x in input()]
+# while numbers:
+#    print(numbers.pop(), end=' ')
+
+
+# numbers = [x for x in input()]
+# stack = []
+# while numbers:
+#    stack.append(numbers.pop())
+# print(' '.join(stack))
