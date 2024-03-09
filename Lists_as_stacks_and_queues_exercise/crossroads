@@ -1,0 +1,33 @@
+from collections import deque
+
+green_light_duration = int(input())
+free_window_duration = int(input())
+
+cars_queue = deque()
+current_green_timer = green_light_duration
+passed_cars = 0
+hit_at = ''
+
+command = input()
+while command != 'END':
+    if command == 'green':
+        current_green_timer = green_light_duration
+        while current_green_timer > 0:
+            if not cars_queue:
+                break
+            car = cars_queue.popleft()
+            if len(car) <= current_green_timer + free_window_duration:
+                current_green_timer -= len(car)
+                passed_cars += 1
+            else:
+                hit_at = car[current_green_timer + free_window_duration]
+                print(f'A crash happened!')
+                print(f'{car} was hit at {hit_at}.')
+                exit()
+    else:
+        cars_queue.append(command)
+    command = input()
+
+print(f'Everyone is safe.')
+print(f'{passed_cars} total cars passed the crossroads.')
+          
