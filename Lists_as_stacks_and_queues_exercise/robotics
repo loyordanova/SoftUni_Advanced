@@ -1,0 +1,40 @@
+from collections import deque
+
+# input robot's data
+robots = input().split(';')
+robots_dict = {}
+for robot in robots:
+    robot_name, process_time = robot.split('-')
+    robots_dict[robot_name] = int(process_time)
+
+free_robots = {}
+for name in robots_dict.keys():
+    free_robots[name] = 0
+
+# input starting time
+hh, mm, ss = input().split(':')
+starting_time_details = int(hh) * 3600 + int(mm) * 60 + int(ss)
+
+# input product's data
+products = deque()
+command = input()
+while command != 'End':
+    products.append(command)
+    command = input()
+
+current_time = starting_time_details
+while products:
+    product = products.popleft()
+    current_time += 1
+
+    for robot, check_free in free_robots.items():
+        if current_time >= check_free:
+            free_robots[robot] = robots_dict[robot] + current_time
+            print(f' {robot} - {product} '
+                  f'[{current_time // 3600:02d}:'
+                  f'{current_time % 3600 // 60:02d}:'
+                  f'{current_time % 60:02d}]')
+            break
+
+    else:
+        products.append(product)
