@@ -1,0 +1,16 @@
+n = int(input())
+
+parking = set()
+for _ in range(n):
+    command, reg_num = input().split(', ')
+    if command == 'IN':
+        parking.add(reg_num)
+    elif command == 'OUT':
+        if reg_num in parking:
+            parking.remove(reg_num)
+
+if parking:
+    for car in parking:
+        print(car)
+else:
+    print(f'Parking Lot is Empty')
