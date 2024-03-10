@@ -1,0 +1,17 @@
+number_of_guests = int(input())
+
+reservation_codes = set()
+
+for _ in range(number_of_guests):
+    code = input()
+    reservation_codes.add(code)
+
+guest = input()
+while guest != 'END':
+    reservation_codes.remove(guest)
+    guest = input()
+
+print(len(reservation_codes))
+for num in sorted(reservation_codes):
+    print(num)
+    
