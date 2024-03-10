@@ -1,0 +1,19 @@
+numbers = tuple(map(float, input().split()))
+occurances = {}
+for num in numbers:
+    if num not in occurances:
+        occurances[num] = 0
+    occurances[num] += 1
+
+[print(f'{key} - {value} times') for key, value in occurances.items()]
+
+# for num in numbers:
+   # occurances[num] = numbers.count(num)
+# for key, value in occurances.items():
+   # print(f'{key} - {value} times')
+
+numbers = tuple(float(el) for el in input().split())
+for num in numbers:
+    if num not in occurances:
+        occurances[num] = numbers.count(num)
+        print(f'{num} - {numbers.count(num)} times')
