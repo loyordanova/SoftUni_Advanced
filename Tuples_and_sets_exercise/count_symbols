@@ -1,0 +1,10 @@
+txt = tuple(input())
+
+letters = {}
+for char in txt:
+    if char not in letters:
+        letters[char] = txt.count(char)
+
+for key, value in sorted(letters.items()):
+    print(f"{key}: {value} time/s")
+  
