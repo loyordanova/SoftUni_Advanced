@@ -1,0 +1,14 @@
+n = int(input())
+
+longest_intersection = set()
+for _ in range(n):
+    first_range, second_range = input().split('-')
+    first_start, first_end = first_range.split(',')
+    second_start, second_finish = second_range.split(',')
+    first_nums = set([num for num in range(int(first_start), int(first_end) + 1)])
+    second_nums = set([num for num in range(int(second_start), int(second_finish) + 1)])
+    intersection = first_nums.intersection(second_nums)
+    if len(intersection) > len(longest_intersection):
+        longest_intersection = intersection
+result = [*longest_intersection]
+print(f'Longest intersection is {result} with length {len(longest_intersection)}')
