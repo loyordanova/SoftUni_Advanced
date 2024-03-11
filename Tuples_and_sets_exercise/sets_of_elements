@@ -1,0 +1,16 @@
+n, m = input().split()
+
+first_set = set()
+second_set = set()
+
+count = 0
+for _ in range(int(n) + int(m)):
+    num = int(input())
+    if count < int(n):
+        first_set.add(num)
+    else:
+        second_set.add(num)
+    count += 1
+result = first_set.intersection(second_set)
+for num in result:
+    print(num)
