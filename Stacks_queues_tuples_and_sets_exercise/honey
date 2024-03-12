@@ -1,0 +1,33 @@
+from collections import deque
+
+
+working_bees = deque(int(x) for x in input().split())
+nectar = [int(y) for y in input().split()]
+honey_making_process = deque(input().split())
+
+total_honey_made = 0
+
+operators = {
+    '+': lambda a, b: a + b,
+    '-': lambda a, b: a - b,
+    '*': lambda a, b: a * b,
+    '/': lambda a, b: a / b
+}
+
+while working_bees and nectar:
+    matched_bee = working_bees.popleft()
+    matched_nectar = nectar.pop()
+
+    if matched_nectar < matched_bee:
+        working_bees.appendleft(matched_bee)
+        continue
+    operator = honey_making_process.popleft()
+
+    if matched_nectar > 0:
+        total_honey_made += abs(operators[operator](matched_bee, matched_nectar))
+
+print(f'Total honey made: {total_honey_made}')
+if working_bees:
+    print(f'Bees left: {", ".join(str(x) for x in working_bees)}')
+if nectar:
+    print(f'Nectar left: {", ".join(str(x) for x in nectar)}')
