@@ -1,0 +1,86 @@
+from collections import deque
+
+expression = input().split()
+new_num = 1
+new_expression = deque()
+
+for symbol in expression:
+    if symbol == '*':
+        for num in new_expression:
+            new_num *= int(num)
+        new_expression.clear()
+        new_expression.append(new_num)
+        new_num = 1
+
+    elif symbol == '/':
+        new_num = int(new_expression.popleft())
+        for num in new_expression:
+            new_num /= int(num)
+        new_expression.clear()
+        new_expression.append(int(new_num))
+        new_num = 1
+
+    elif symbol == '-':
+        new_num = int(new_expression.popleft())
+        for num in new_expression:
+            new_num -= int(num)
+        new_expression.clear()
+        new_expression.append(new_num)
+        new_num = 1
+
+    elif symbol == '+':
+        new_num = 0
+        for num in new_expression:
+            new_num += int(num)
+        new_expression.clear()
+        new_expression.append(new_num)
+        new_num = 1
+
+    else:
+        new_expression.append(symbol)
+print(*new_expression)
+
+# another way to solve it
+
+# from collections import deque
+# expression = input().split()
+#
+# numbers = deque()
+# for char in expression:
+#     if char not in '+-/*':
+#         numbers.append(int(char))
+#     else:
+#         while len(numbers) > 1:
+#             first_num = numbers.popleft()
+#             second_num = numbers.popleft()
+#             if char == '+':
+#                 numbers.appendleft(first_num + second_num)
+#             elif char == ' -':
+#                 numbers.appendleft(first_num - second_num)
+#             elif char == ' * ':
+#                 numbers.appendleft(first_num * second_num)
+#             elif char == ' / ':
+#                 numbers.appendleft(first_num // second_num)
+# print(numbers[0])
+
+
+# another way to solve it
+
+# from collections import deque
+# expression = input().split()
+# numbers = deque()
+# operators = {
+#     '+': lambda a, b: a + b,
+#     '-': lambda a, b: a - b,
+#     '*': lambda a, b: a * b,
+#     '/': lambda a, b: a // b,
+# }
+# for char in expression:
+#     if char not in '+-/*':
+#         numbers.append(int(char))
+#     else:
+#         while len(numbers) > 1:
+#             first_num = numbers.popleft()
+#             second_num = numbers.popleft()
+#             numbers.appendleft(operators[char](first_num, second_num))
+# print(numbers[0])
