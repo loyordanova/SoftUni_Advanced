@@ -1,0 +1,23 @@
+rows = int(input())
+
+matrix = []
+
+for i in range(rows):
+    row = input().split(', ')
+    matrix.append(list(map(int, row)))
+evens = [[x for x in row if x % 2 == 0] for row in matrix]
+
+print(evens)
+
+
+# rows = int(input())
+#
+# matrix = []
+# for row in range(rows):
+#     nums = [int(x) for x in input().split(', ')]
+#     even = []
+#     for num in nums:
+#         if num % 2 == 0:
+#             even.append(num)
+#     matrix.append(even)
+# print(matrix)
