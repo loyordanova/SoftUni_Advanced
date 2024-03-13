@@ -1,0 +1,25 @@
+n = int(input())
+matrix = [[0] * n for row in range(0, n)]
+
+
+for x in range(0, n):
+    line = list(map(int, input().split()))
+    for y in range(0, n):
+        matrix[x][y] = line[y]
+
+sum_diagonal = sum(matrix[n - i - 1][n - i - 1] for i in range(n))
+
+print(sum_diagonal)
+
+
+# n = int(input())
+#
+# matrix = []
+# for row_index in range(n):
+#     elements = [int(el) for el in input().split()]
+#     matrix.append(elements)
+#
+# dum_diagonal = 0
+# for row_index in range(n):
+#     sum_diagonal += matrix[row_index][row_index]
+# print(sum_diagonal)
