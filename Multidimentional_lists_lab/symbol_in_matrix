@@ -1,0 +1,14 @@
+n = int(input())
+
+matrix = [list(input()) for _ in range(n)]
+symbol = input()
+
+flag = False
+for row in range(n):
+    for col in range(n):
+        if matrix[col][row] == symbol:
+            print(f'({col}, {row})')
+            flag = True
+            break
+if not flag:
+    print(f'{symbol} does not occur in the matrix')
