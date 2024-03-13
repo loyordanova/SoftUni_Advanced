@@ -1,0 +1,13 @@
+rows_count = int(input())
+matrix = [map(int, input().split(', ')) for _ in range(rows_count)]
+flattened = [num for row in matrix for num in row]
+print(flattened)
+
+
+# rows = int(input())
+#
+# matrix = []
+# for row in range(rows):
+#     matrix.append(input().split(', '))
+#
+# print([int(num) for sublist in matrix for num in sublist])
