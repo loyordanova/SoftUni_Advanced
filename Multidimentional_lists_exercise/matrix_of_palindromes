@@ -1,0 +1,8 @@
+rows, cols = [int(x) for x in input().split()]
+
+first_letter = ord('a')
+
+for row in range(rows):
+    for col in range(cols):
+        print(chr(first_letter + row) + chr(first_letter + row + col) + chr(first_letter + row), end=' ')
+    print()
