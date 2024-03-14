@@ -1,0 +1,25 @@
+rows = int(input())
+cols = rows
+
+matrix = [[int(x) for x in input().split()] for _ in range(rows)]
+bombs = [list(map(int, x.split(','))) for x in input().split()]
+
+for bomb in range(len(bombs)):
+    row, col = bombs[bomb]
+    bomb_value = matrix[row][col]
+    if bomb_value > 0:
+        for i in range(row - 1, row + 2):
+            for j in range(col - 1, col + 2):
+                if 0 <= i < rows and 0 <= j < rows and matrix[i][j] > 0:
+                    matrix[i][j] -= bomb_value
+        matrix[row][col] = 0
+
+alive_list = [y for x in matrix for y in x if y > 0]
+alive = len(alive_list)
+sum_nums = sum(alive_list)
+
+print(f'Alive cells: {alive}')
+print(f'Sum: {sum_nums}')
+for row in matrix:
+    print(*row)
+    
