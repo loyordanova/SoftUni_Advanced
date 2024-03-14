@@ -1,0 +1,17 @@
+rows, cols = [int(x) for x in input().split()]
+
+matrix = [list(input().split()) for _ in range(rows)]
+
+square_matrix_nums = 0
+
+for row in range(rows):
+    for col in range(cols):
+        if row < rows - 1 and col < cols - 1:
+            a = matrix[row][col]
+            b = matrix[row][col + 1]
+            c = matrix[row + 1][col]
+            d = matrix[row + 1][col + 1]
+            if a == b == c == d:
+                square_matrix_nums += 1
+
+print(square_matrix_nums)
