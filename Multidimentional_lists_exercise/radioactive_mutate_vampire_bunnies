@@ -1,0 +1,91 @@
+rows, cols = [int(x) for x in input().split()]
+
+bunny_lair = [[y for y in x] for _ in range(rows) for x in input().split()]
+
+commands = input()
+
+start_row = int([bunny_lair.index(x) for x in bunny_lair if 'P' in x][0])
+start_col = int([bunny_lair[start_row].index(x) for x in bunny_lair[start_row] if x == 'P'][0])
+
+player = 'alive'
+in_maze = True
+for command in commands:
+
+    if command == 'L':
+        if 0 <= start_col - 1 < cols:
+            bunny_lair[start_row][start_col] = '.'
+            start_col -= 1
+            if bunny_lair[start_row][start_col] != 'B':
+                bunny_lair[start_row][start_col] = 'P'
+            else:
+                in_maze = False
+                player = 'dead'
+        else:
+            in_maze = False
+            bunny_lair[start_row][start_col] = '.'
+    elif command == 'R':
+        if 0 <= start_col + 1 < cols:
+            bunny_lair[start_row][start_col] = '.'
+            start_col += 1
+            if bunny_lair[start_row][start_col] != 'B':
+                bunny_lair[start_row][start_col] = 'P'
+            else:
+                in_maze = False
+                player = 'dead'
+        else:
+            in_maze = False
+            bunny_lair[start_row][start_col] = '.'
+    elif command == 'U':
+        if 0 <= start_row - 1 < rows:
+            bunny_lair[start_row][start_col] = '.'
+            start_row -= 1
+            if bunny_lair[start_row][start_col] != 'B':
+                bunny_lair[start_row][start_col] = 'P'
+            else:
+                in_maze = False
+                player = 'dead'
+        else:
+            in_maze = False
+            bunny_lair[start_row][start_col] = '.'
+    elif command == 'D':
+        if 0 <= start_row + 1 < rows:
+            bunny_lair[start_row][start_col] = '.'
+            start_row += 1
+            if bunny_lair[start_row][start_col] != 'B':
+                bunny_lair[start_row][start_col] = 'P'
+            else:
+                in_maze = False
+                player = 'dead'
+        else:
+            in_maze = False
+            bunny_lair[start_row][start_col] = '.'
+
+    bunny_coordinates = []
+    for row in range(rows):
+        for col in range(cols):
+            if bunny_lair[row][col] == 'B':
+                if 0 <= row - 1 < rows and 0 <= col < cols:
+                    bunny_coordinates.append([row - 1, col])
+                if 0 <= row < rows and 0 <= col - 1 < cols:
+                    bunny_coordinates.append([row, col - 1])
+                if 0 <= row < rows and 0 <= col + 1 < cols:
+                    bunny_coordinates.append([row, col + 1])
+                if 0 <= row + 1 < rows and 0 <= col < cols:
+                    bunny_coordinates.append([row + 1, col])
+
+    for coordinate in bunny_coordinates:
+        r = coordinate[0]
+        c = coordinate[1]
+        bunny_lair[r][c] = 'B'
+    bunny_coordinates.clear()
+
+    if bunny_lair[start_row][start_col] == 'B' and in_maze and player == 'alive':
+        in_maze = False
+        player = 'dead'
+
+    if not in_maze or player == 'dead':
+        break
+
+for row in bunny_lair:
+    print(''.join(row))
+print(f'won: {start_row} {start_col}' if player == 'alive' else f'dead: {start_row} {start_col}')
