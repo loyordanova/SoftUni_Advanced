@@ -1,0 +1,26 @@
+rows, cols = [int(x) for x in input().split()]
+
+matrix = [list(input().split()) for _ in range(rows)]
+
+command = input()
+while command != 'END':
+    command_data = command.split()
+    if command_data[0] == 'swap' and len(command_data) == 5:
+        row1 = int(command_data[1])
+        col1 = int(command_data[2])
+        row2 = int(command_data[3])
+        col2 = int(command_data[4])
+        if rows > row1 and rows > row2 and cols > col1 and cols > col2:
+            first_el = matrix[row1][col1]
+            second_el = matrix[row2][col2]
+            matrix[row1][col1] = second_el
+            matrix[row2][col2] = first_el
+            for row in matrix:
+                print(*row)
+
+        else:
+            print('Invalid input!')
+    else:
+        print('Invalid input!')
+
+    command = input()
