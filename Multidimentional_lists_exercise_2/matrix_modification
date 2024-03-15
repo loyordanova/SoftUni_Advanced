@@ -1,0 +1,21 @@
+rows = int(input())
+matrix = [list(map(int, input().split())) for _ in range(rows)]
+
+commands = input()
+while commands != 'END':
+    command_type, row, col, value = commands.split()
+    if command_type == 'Add':
+        if 0 <= int(row) < rows and 0 <= int(col) < len(matrix[0]):
+            matrix[int(row)][int(col)] += int(value)
+        else:
+            print('Invalid coordinates')
+    elif command_type == 'Subtract':
+        if 0 <= int(row) < rows and 0 <= int(col) < len(matrix[0]):
+            matrix[int(row)][int(col)] -= int(value)
+        else:
+            print('Invalid coordinates')
+    commands = input()
+
+for row in matrix:
+    print(*row)
+    
