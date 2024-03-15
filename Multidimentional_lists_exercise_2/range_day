@@ -1,0 +1,57 @@
+rows = 5
+cols = 5
+field = [list(input().split()) for row in range(rows)]
+player_pos, target_pos = '', []
+for row in range(rows):
+    for col in range(cols):
+        if field[row][col] == 'A':
+            player_pos = [row, col]
+        elif field[row][col] == 'x':
+            target_pos.append([row, col])
+
+possible_movements = {'left': (0, -1),
+                      'right': (0, 1),
+                      'up': (-1, 0),
+                      'down': (1, 0)}
+
+shot_targets_coordinates = []
+for _ in range(int(input())):
+    command = input().split()
+
+    if command[0] == 'move':
+        direction = command[1]
+        steps = int(command[2])
+        total_steps = [x * steps if x != 0 else 0 for x in possible_movements[direction]]
+        new_row = player_pos[0] + total_steps[0]
+        new_col = player_pos[1] + total_steps[1]
+        if 0 <= new_row < rows and 0 <= new_col < cols and field[new_row][new_col] == '.':
+            field[player_pos[0]][player_pos[1]] = '.'
+            field[new_row][new_col] = 'A'
+            player_pos = [new_row, new_col]
+
+    elif command[0] == 'shoot':
+        direction = command[1]
+        shot_row = player_pos[0]
+        shot_col = player_pos[1]
+        for _ in range(rows):
+            new_row = shot_row + possible_movements[direction][0]
+            new_col = shot_col + possible_movements[direction][1]
+            if 0 <= new_row < rows and 0 <= new_col < cols:
+                if field[new_row][new_col] == 'x':
+                    shot_targets_coordinates.append([new_row, new_col])
+                    target_pos.remove([new_row, new_col])
+                    field[new_row][new_col] = '.'
+                    break
+                shot_row = new_row
+                shot_col = new_col
+            else:
+                break
+
+    if not target_pos:
+        print(f"Training completed! All {len(shot_targets_coordinates)} targets hit.")
+        break
+
+if target_pos:
+    print(f"Training not completed! {len(target_pos)} targets left.")
+for shot_target in shot_targets_coordinates:
+    print(shot_target)
