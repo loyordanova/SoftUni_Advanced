@@ -1,0 +1,47 @@
+rows = int(input())
+cols = rows
+
+alice_pos, field = '', []
+
+for row in range(rows):
+    field.append([i for i in input().split()])
+    for col in range(cols):
+        if field[row][col] == 'A':
+            alice_pos = [row, col]
+
+possible_movements = {
+    'left': (0, -1),
+    'right': (0, 1),
+    'up': (-1, 0),
+    'down': (1, 0)
+}
+collected_tea = 0
+rabit_hole = False
+
+while collected_tea < 10 and not rabit_hole:
+    command = input()
+
+    alice_current_row = alice_pos[0]
+    alice_current_col = alice_pos[1]
+    added_row = possible_movements[command][0]
+    added_col = possible_movements[command][1]
+    new_row = alice_current_row + added_row
+    new_col = alice_current_col + added_col
+    field[alice_current_row][alice_current_col] = '*'
+
+    if 0 <= new_row < rows and 0 <= new_col < cols:
+        if field[new_row][new_col] == 'R':
+            field[new_row][new_col] = '*'
+            rabit_hole = True
+        elif field[new_row][new_col] != '*' and field[new_row][new_col] != '.':
+            tea_value = int(field[new_row][new_col])
+            field[new_row][new_col] = '*'
+            collected_tea += tea_value
+        field[new_row][new_col] = '*'
+        alice_pos = [new_row, new_col]
+    else:
+        rabit_hole = True
+
+print(f'She did it! She went to the party.' if collected_tea >= 10 else "Alice didn't make it to the tea party.")
+for row in field:
+    print(*row)
