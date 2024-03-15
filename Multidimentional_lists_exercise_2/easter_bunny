@@ -1,0 +1,56 @@
+field_size = int(input())
+
+bunny_pos, matrix = [], []
+
+for row in range(field_size):
+    matrix.append([x for x in input().split()])
+    for col in range(field_size):
+        if matrix[row][col] == 'B':
+            bunny_pos = [row, col]
+
+possible_movement = {
+    'up': (-1, 0), 'down': (1, 0), 'left': (0, -1), 'right': (0, 1)
+}
+max_eggs_collected = 0
+positions = []
+direction = ''
+turns = 0
+while turns <= 4:
+
+    b_row = bunny_pos[0]
+    b_col = bunny_pos[1]
+    for direct, move in possible_movement.items():
+        collected_eggs = 0
+        current_positions = []
+        current_direction = ''
+        temporary_row = move[0]
+        temporary_col = move[1]
+
+        for i in range(field_size):
+            new_row, new_col = b_row + temporary_row, b_col + temporary_col
+            if 0 <= new_row < field_size and 0 <= new_col < field_size:
+                if matrix[new_row][new_col] == 'X':
+                    break
+                collected_eggs += int(matrix[new_row][new_col])
+                current_positions.append([new_row, new_col])
+                current_direction = direct
+                if current_direction == 'up':
+                    temporary_row -= 1
+                elif current_direction == 'down':
+                    temporary_row += 1
+                elif current_direction == 'left':
+                    temporary_col -= 1
+                elif current_direction == 'right':
+                    temporary_col += 1
+            else:
+                break
+        turns += 1
+        if collected_eggs >= max_eggs_collected:
+            max_eggs_collected = collected_eggs
+            positions = current_positions
+            direction = current_direction
+
+print(direction)
+for pos in positions:
+    print(pos)
+print(max_eggs_collected)
