@@ -1,0 +1,84 @@
+presents = int(input())
+neighborhood_size = int(input())
+
+neighborhood, santa_position, nice_kids, nice_kids_collected_presents = [], '', [], 0
+
+for row in range(neighborhood_size):
+    neighborhood.append(input().split())
+    for col in range(neighborhood_size):
+        if neighborhood[row][col] == 'S':
+            santa_position = [row, col]
+        elif neighborhood[row][col] == 'V':
+            nice_kids.append([row, col])
+
+possible_movements = {'left': (0, -1),
+                      'right': (0, 1),
+                      'up': (-1, 0),
+                      'down': (1, 0)}
+
+
+def check_valid_index(row, col):
+    if 0 <= row < neighborhood_size and 0 <= col < neighborhood_size:
+        return True
+
+
+def nice_kid(row, col):
+    global nice_kids_collected_presents
+    global presents
+    nice_kids_collected_presents += 1
+    presents -= 1
+    neighborhood[santa_position[0]][santa_position[1]] = '-'
+    neighborhood[row][col] = 'S'
+    nice_kids.remove([row, col])
+    return row, col
+
+
+def naughty_kid(row, col):
+    neighborhood[santa_position[0]][santa_position[1]] = '-'
+    neighborhood[row][col] = 'S'
+    return row, col
+
+
+def cookie(row, col):
+    global nice_kids_collected_presents
+    global presents
+    neighborhood[santa_position[0]][santa_position[1]] = '-'
+    neighborhood[row][col] = 'S'
+    for move in possible_movements:
+        check_row = row + possible_movements[move][0]
+        check_col = col + possible_movements[move][1]
+        if check_valid_index(check_row, check_col):
+            if neighborhood[check_row][check_col] == 'V':
+                nice_kids_collected_presents += 1
+                presents -= 1
+                nice_kids.remove([check_row, check_col])
+            elif neighborhood[check_row][check_col] == 'X':
+                presents -= 1
+            neighborhood[check_row][check_col] = '-'
+    return row, col
+
+
+command = input()
+while command != 'Christmas morning':
+    move_row, move_col = possible_movements[command][0], possible_movements[command][1]
+    new_row, new_col = santa_position[0] + move_row, santa_position[1] + move_col
+    if check_valid_index(new_row, new_col):
+        if neighborhood[new_row][new_col] == 'V':
+            santa_position[0], santa_position[1] = nice_kid(new_row, new_col)
+        elif neighborhood[new_row][new_col] == 'X':
+            santa_position[0], santa_position[1] = naughty_kid(new_row, new_col)
+        elif neighborhood[new_row][new_col] == 'C':
+            cookie(new_row, new_col)
+        else:
+            neighborhood[santa_position[0]][santa_position[1]] = '-'
+            santa_position[0], santa_position[1] = new_row, new_col
+    if presents <= 0:
+        break
+    command = input()
+
+if presents <= 0 and nice_kids:
+    print('Santa ran out of presents!')
+for row in neighborhood:
+    print(*row)
+print(f'Good job, Santa! {nice_kids_collected_presents} happy nice kid/s.'
+      if not nice_kids else f'No presents for {len(nice_kids)} nice kid/s.')
