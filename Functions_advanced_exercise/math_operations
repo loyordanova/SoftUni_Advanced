@@ -1,0 +1,49 @@
+def math_operations(*args: float, **kwargs):
+    keys = list(kwargs.keys())
+
+    for i in range(len(args)):
+        key = keys[i % 4]
+
+        if key == 'a':
+            kwargs[key] += args[i]
+        elif key == 's':
+            kwargs[key] -= args[i]
+        elif key == 'd':
+            if key != 0:
+                kwargs[key] /= args[i]
+        elif key == 'a':
+            kwargs[key] *= args[i]
+
+    kwargs = sorted(kwargs.items(), key=lambda kvp: (-kvp[1], kvp[0]))
+    return '\n'.join(f"{k}: {v:.1f}" for k, v in kwargs)
+
+    # another way
+    # def math_operations(*args: float, **kwargs):
+    # count = 1
+    # for num in args:
+    #
+    #     if count == 1:
+    #         kwargs['a'] += num
+    #         count += 1
+    #
+    #     elif count == 2:
+    #         kwargs['s'] -= num
+    #         count += 1
+    #
+    #     elif count == 3:
+    #         count += 1
+    #         if num != 0:
+    #             kwargs['d'] /= num
+    #
+    #     elif count == 4:
+    #         kwargs['m'] *= num
+    #         count = 1
+    # result = ''
+    # for key, value in sorted(kwargs.items(), key=lambda kvp: (-kvp[1], kvp[0])):
+    #     result += f'{key}: {value:.1f}\n'
+    #
+    # return result
+
+print(math_operations(2.1, 12.56, 0.0, -3.899, 6.0, -20.65, a=1, s=7, d=33, m=15))
+print(math_operations(-1.0, 0.5, 1.6, 0.5, 6.1, -2.8, 80.0, a=0, s=(-2.3), d=0, m=0))
+print(math_operations(6.0, a=0, s=0, d=5, m=0))
