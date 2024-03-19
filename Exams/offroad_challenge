@@ -1,0 +1,32 @@
+from collections import deque
+
+fuel_quantity = [int(x) for x in input().split()]
+add_consumption_index = deque([int(x) for x in input().split()])
+needed_fuel = deque([int(x) for x in input().split()])
+
+altitute = 1
+altitudes = []
+while fuel_quantity:
+    fuel_qty = fuel_quantity[-1]
+    add_cons = add_consumption_index[0]
+    result = fuel_qty - add_cons
+    first_needed_fuel = needed_fuel[0]
+    if result >= first_needed_fuel:
+        fuel_quantity.pop()
+        add_consumption_index.popleft()
+        needed_fuel.popleft()
+        altitudes.append(f'Altitude {altitute}')
+        print(f'John has reached: Altitude {altitute}')
+        altitute += 1
+    else:
+        print(f'John did not reach: Altitude {altitute}')
+        if result < first_needed_fuel and altitute > 1:
+            print(f"John failed to reach the top.\n"
+                  f"Reached altitudes: {', '.join(altitudes)}")
+        elif result < first_needed_fuel and len(altitudes) == 0:
+            print(f"John failed to reach the top.\n"
+                  f"John didn't reach any altitude.")
+        break
+
+if not fuel_quantity:
+    print(f"John has reached all the altitudes and managed to reach the top!")
