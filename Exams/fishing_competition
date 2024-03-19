@@ -1,0 +1,71 @@
+n = int(input())
+whirlpool = False
+fish_caught = 0
+
+
+def check_valid_index(row, col):
+    if 0 <= row < n and 0 <= col < n:
+        return True
+
+
+fishing_area, player_pos = [], 0
+for row in range(n):
+    fishing_area.append(list(input()))
+    for col in range(n):
+        if fishing_area[row][col] == 'S':
+            player_pos = [row, col]
+
+possible_movements = {'left': (0, -1), 'right': (0, 1), 'up': (-1, 0), 'down': (1, 0)}
+
+while True:
+    command = input()
+    if command == 'collect the nets':
+        break
+    move_row, move_col = possible_movements[command][0], possible_movements[command][1]
+    new_row, new_col = player_pos[0] + move_row, player_pos[1] + move_col
+    if not check_valid_index(new_row, new_col):
+        if new_row >= n:
+            new_row = 0
+        if new_row < 0:
+            new_row = n - 1
+        if new_col >= n:
+            new_col = 0
+        if new_col < 0:
+            new_col = n - 1
+    if check_valid_index(new_row, new_col):
+        if fishing_area[new_row][new_col].isdigit():
+            fish_caught += int(fishing_area[new_row][new_col])
+            fishing_area[player_pos[0]][player_pos[1]] = '-'
+            player_pos[0] = new_row
+            player_pos[1] = new_col
+
+        elif fishing_area[new_row][new_col] == 'W':
+            fish_caught = 0
+            player_pos[0] = new_row
+            player_pos[1] = new_col
+            whirlpool = True
+            print(f'You fell into a whirlpool! The ship sank and you lost the fish you caught. '
+                  f'Last coordinates of the ship: [{player_pos[0]},{player_pos[1]}]')
+            break
+        else:
+            fishing_area[player_pos[0]][player_pos[1]] = '-'
+            player_pos[0] = new_row
+            player_pos[1] = new_col
+
+        fishing_area[new_row][new_col] = 'S'
+
+
+if fish_caught >= 20 and not whirlpool:
+    print(f"Success! You managed to reach the quota!")
+
+elif fish_caught < 20 and not whirlpool:
+    print(f"You didn't catch enough fish and didn't reach the quota! "
+          f"You need {20 - fish_caught} tons of fish more.")
+
+if fish_caught > 0 and not whirlpool:
+    print(f"Amount of fish caught: {fish_caught} tons.")
+
+if not whirlpool:
+    for row in fishing_area:
+        print(''.join(row))
+
