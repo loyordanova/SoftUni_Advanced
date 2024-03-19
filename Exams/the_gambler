@@ -1,0 +1,89 @@
+board_size = int(input())
+
+board = []
+player_position = ''
+player_bet = 100
+
+for row in range(board_size):
+    board.append(list(input()))
+    for col in range(board_size):
+        if board[row][col] == 'G':
+            player_position = [row, col]
+
+possible_movements = {'left': (0, -1),
+                      'right': (0, 1),
+                      'up': (-1, 0),
+                      'down': (1, 0)}
+jackpot = False
+lost = False
+
+
+def boundaries(row, col):
+    global lost
+    if 0 <= row < board_size and 0 <= col < board_size:
+        return True
+    else:
+        lost = True
+
+
+def dash_position(row, col):
+    board[player_position[0]][player_position[1]] = '-'
+    board[row][col] = 'G'
+    return row, col
+
+
+def w_position(row, col):
+    global player_bet
+    player_bet += 100
+    board[player_position[0]][player_position[1]] = '-'
+    board[row][col] = 'G'
+    return row, col
+
+
+def p_position(row, col):
+    global player_bet
+    player_bet -= 200
+    board[player_position[0]][player_position[1]] = '-'
+    board[row][col] = 'G'
+    return row, col
+
+
+def j_position(row, col):
+    global player_bet
+    global jackpot
+    player_bet += 100000
+    board[player_position[0]][player_position[1]] = '-'
+    board[row][col] = 'G'
+    jackpot = True
+
+
+command = input()
+while command != 'end':
+    move_row, move_col = possible_movements[command][0], possible_movements[command][1]
+    new_row, new_col = player_position[0] + move_row, player_position[1] + move_col
+    if boundaries(new_row, new_col):
+        if board[new_row][new_col] == '-':
+            player_position[0], player_position[1] = dash_position(new_row, new_col)
+        elif board[new_row][new_col] == 'W':
+            player_position[0], player_position[1] = w_position(new_row, new_col)
+        elif board[new_row][new_col] == 'P':
+            player_position[0], player_position[1] = p_position(new_row, new_col)
+        elif board[new_row][new_col] == 'J':
+            j_position(new_row, new_col)
+    if player_bet <= 0:
+        lost = True
+    if lost or jackpot:
+        break
+
+    command = input()
+
+if jackpot:
+    print(f'You win the Jackpot!\nEnd of the game. Total amount: {player_bet}$')
+    for row in board:
+        print("".join(row))
+elif lost:
+    print("Game over! You lost everything!")
+else:
+    print(f"End of the game. Total amount: {player_bet}$")
+    for row in board:
+        print("".join(row))
