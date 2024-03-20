@@ -1,0 +1,49 @@
+def accommodate_new_pets(capacity: int, weight_limit: float, *args):
+    args_list = list(args)
+    pets_data = {}
+    accommodated_pets = 0
+    result = ''
+    for pet in args:
+        if capacity <= 0:
+            break
+        pet_type= pet[0]
+        pet_weight = pet[1]
+        if pet_weight <= weight_limit:
+            if pet_type not in pets_data:
+                pets_data[pet_type] = []
+            pets_data[pet_type].append(pet_weight)
+            accommodated_pets += 1
+            capacity -= 1
+        else:
+            args_list.remove(pet)
+
+    if accommodated_pets >= len(args_list):
+        result += f"All pets are accommodated! Available capacity: {capacity}.\n"
+    else:
+        result += "You did not manage to accommodate all pets!\n"
+    result += 'Accommodated pets:\n'
+    for pet, weight in sorted(pets_data.items(), key = lambda kvp: kvp[0]):
+        result += f'{pet}: {len(weight)}\n'
+    return result
+
+print(accommodate_new_pets(
+    10,
+    15.0,
+    ("cat", 5.8),
+    ("dog", 10.0),
+))
+print(accommodate_new_pets(
+    10,
+    10.0,
+    ("cat", 5.8),
+    ("dog", 10.5),
+    ("parrot", 0.8),
+    ("cat", 3.1),
+))
+print(accommodate_new_pets(
+    2,
+    15.0,
+    ("dog", 10.0),
+    ("cat", 5.8),
+    ("cat", 2.7),
+))
