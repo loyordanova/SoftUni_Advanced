@@ -1,0 +1,53 @@
+ROWS, COLS = [int(i) for i in input().split()]
+
+neighborhood, starting_position, current_position,  restaurant_pos = [], [], [], []
+
+for row in range(ROWS):
+    neighborhood.append(list(input()))
+    if 'B' in neighborhood[row]:
+        starting_position.append(row)
+        starting_position.append(neighborhood[row].index('B'))
+        current_position.append(row)
+        current_position.append(neighborhood[row].index('B'))
+    if 'P' in neighborhood[row]:
+        restaurant_pos.append(row)
+        restaurant_pos.append(neighborhood[row].index('P'))
+
+directions = {'left': (0, -1), 'right': (0, 1), 'up': (-1, 0), 'down': (1, 0)}
+
+collected_pizza = False
+while True:
+    command = input()
+    new_row = current_position[0] + directions[command][0]
+    new_col = current_position[1] + directions[command][1]
+    if 0 <= new_row < ROWS and 0 <= new_col < COLS:
+        if neighborhood[new_row][new_col] == '*':
+            continue
+
+        if neighborhood[new_row][new_col] == 'P':
+            neighborhood[current_position[0]][current_position[1]] = '.'
+            current_position[0], current_position[1] = new_row, new_col
+            neighborhood[new_row][new_col] = 'R'
+            collected_pizza = True
+            print("Pizza is collected. 10 minutes for delivery.")
+            continue
+        if neighborhood[new_row][new_col] == 'A':
+            neighborhood[current_position[0]][current_position[1]] = '.'
+            current_position[0], current_position[1] = new_row, new_col
+            neighborhood[new_row][new_col] = 'P'
+            print("Pizza is delivered on time! Next order...")
+            neighborhood[starting_position[0]][starting_position[1]] = 'B'
+            break
+        if not neighborhood[current_position[0]][current_position[1]] == 'R':
+            neighborhood[current_position[0]][current_position[1]] = '.'
+        current_position[0], current_position[1] = new_row, new_col
+        neighborhood[current_position[0]][current_position[1]] = '.'
+    else:
+        print("The delivery is late. Order is canceled.")
+        neighborhood[starting_position[0]][starting_position[1]] = ' '
+        break
+
+if collected_pizza:
+    neighborhood[restaurant_pos[0]][restaurant_pos[1]] = 'R'
+for row in neighborhood:
+    print(''.join(row))
