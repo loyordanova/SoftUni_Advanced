@@ -1,0 +1,23 @@
+def gather_credits(number_of_credits, *args):
+    enrolled_courses = []
+    gathered_credits = 0
+
+    for name, credit in args:
+        if gathered_credits >= number_of_credits:
+            break
+        if name not in enrolled_courses:
+            enrolled_courses.append(name)
+            gathered_credits += int(credit)
+
+    if gathered_credits >= number_of_credits:
+        return f"""Enrollment finished! Maximum credits: {gathered_credits}.\nCourses: {', '.join(sorted(enrolled_courses))}"""
+    return f"You need to enroll in more courses! You have to gather {number_of_credits - gathered_credits} credits more."
+
+
+print(gather_credits(
+    60,
+    ("Basics", 27),
+    ("Fundamentals", 27),
+    ("Advanced", 30),
+    ("Web", 30)
+))
