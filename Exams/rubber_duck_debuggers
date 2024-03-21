@@ -1,0 +1,31 @@
+from collections import deque
+
+
+programmer_time = deque([int(i) for i in input().split()])
+number_of_tasks = [int(i) for i in input().split()]
+
+rubber_ducks = {'Darth Vader Ducky': 0, 'Thor Ducky': 0, 'Big Blue Rubber Ducky': 0, 'Small Yellow Rubber Ducky': 0}
+
+while programmer_time and number_of_tasks:
+    programmer = programmer_time.popleft()
+    task = number_of_tasks.pop()
+
+    if 0 <= programmer * task <= 60:
+        rubber_ducks['Darth Vader Ducky'] += 1
+
+    elif 61 <= programmer * task <= 120:
+        rubber_ducks['Thor Ducky'] += 1
+
+    elif 121 <= programmer * task <= 180:
+        rubber_ducks['Big Blue Rubber Ducky'] += 1
+
+    elif 181 <= programmer * task <= 240:
+        rubber_ducks['Small Yellow Rubber Ducky'] += 1
+
+    else:
+        number_of_tasks.append(task - 2)
+        programmer_time.append(programmer)
+
+print(f"Congratulations, all tasks have been completed! Rubber ducks rewarded:")
+for key, value in rubber_ducks.items():
+    print(f'{key}: {value}')
