@@ -1,0 +1,37 @@
+from collections import deque
+
+textiles = deque([int(i) for i in input().split()])
+medicament = [int(i) for i in input().split()]
+
+created_items = {'Patch': 0, 'Bandage': 0, 'MedKit': 0}
+while textiles and medicament:
+    textile = textiles.popleft()
+    med = medicament.pop()
+    combined_sum = textile + med
+    if combined_sum == 30:
+        created_items['Patch'] += 1
+    elif combined_sum == 40:
+        created_items['Bandage'] += 1
+    elif combined_sum == 100:
+        created_items['MedKit'] += 1
+    elif combined_sum > 100:
+        created_items['MedKit'] += 1
+        medicament[-1] += (combined_sum - 100)
+    else:
+        medicament.append(med + 10)
+
+if not medicament and not textiles:
+    print("Textiles and medicaments are both empty.")
+elif not textiles:
+    print("Textiles are empty.")
+elif not medicament:
+    print("Medicaments are empty.")
+for key, value in sorted(created_items.items(), key=lambda kvp: (-kvp[1], kvp[0])):
+    if value > 0:
+        print(f'{key} - {value}')
+if medicament:
+    print(f"Medicaments left: {', '.join(str(i) for i in reversed(medicament))}")
+if textiles:
+    print(f"Textiles left: {', '.join(str(i) for i in textiles)}")
+
+
