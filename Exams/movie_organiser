@@ -1,0 +1,18 @@
+def movie_organizer(*args):
+    grouped_movies = {}
+    result = ''
+    for name, genre in args:
+        if genre not in grouped_movies:
+            grouped_movies[genre] = []
+        grouped_movies[genre].append(name)
+
+    for genre, movie in sorted(grouped_movies.items(), key=lambda kvp: (-len(kvp[1]), kvp[0])):
+        result += f'{genre} - {len(movie)}\n'
+        for movie_name in sorted(movie):
+            result += f'* {movie_name}\n'
+    return result
+
+
+print(movie_organizer(
+    ("The Matrix", "Sci-fi")))
+
