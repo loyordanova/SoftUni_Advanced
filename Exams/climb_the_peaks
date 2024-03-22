@@ -1,0 +1,29 @@
+from collections import deque
+
+
+daily_portions = [int(x) for x in input().split(', ')]
+daily_stamina = deque([int(x) for x in input().split(', ')])
+peaks = {'Vihren': 80, 'Kutelo': 90, 'Banski Suhodol': 100, 'Polezhan': 60, 'Kamenitza': 70}
+conquered_peaks = []
+
+
+while daily_stamina and daily_portions:
+    portion = daily_portions.pop()
+    stamina = daily_stamina.popleft()
+    sum_qty = portion + stamina
+    for peak in peaks:
+        if sum_qty >= peaks[peak] != 0:
+            conquered_peaks.append(peak)
+            peaks[peak] = 0
+            break
+        elif sum_qty < peaks[peak]:
+            break
+
+
+if len(conquered_peaks) == 5:
+    print("Alex did it! He climbed all top five Pirin peaks in one week -> @FIVEinAWEEK")
+elif not daily_stamina or daily_portions:
+    print("Alex failed! He has to organize his journey better next time -> @PIRINWINS")
+if conquered_peaks:
+    print('Conquered peaks:')
+    print('\n'.join(peak for peak in conquered_peaks))
