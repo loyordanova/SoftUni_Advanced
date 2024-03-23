@@ -1,0 +1,32 @@
+from collections import deque
+
+seats = input().split(', ')
+sequence_one = deque([int(i) for i in input().split(', ')])
+sequence_two = deque([int(i) for i in input().split(', ')])
+
+taken_seats = []
+rotations = 0
+while True:
+    if len(taken_seats) == 3:
+        break
+    if rotations == 10:
+        break
+    first_num = sequence_one.popleft()
+    second_num = sequence_two.pop()
+    letter = chr(first_num + second_num)
+    first_concat = str(first_num) + letter
+    second_concat = str(second_num) + letter
+    for seat in [first_concat, second_concat]:
+        if seat in taken_seats:
+            break
+        if seat in seats:
+            seats.remove(seat)
+            taken_seats.append(seat)
+            break
+    else:
+        sequence_one.append(first_num)
+        sequence_two.appendleft(second_num)
+    rotations += 1
+
+print(f'Seat matches: {", ".join(taken_seats)}')
+print(f'Rotations count: {rotations}')
