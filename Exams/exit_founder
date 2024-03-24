@@ -1,0 +1,41 @@
+first_player, second_player = input().split(', ')
+
+ROWS = 6
+COLS = 6
+
+matrix = [input().split() for row in range(ROWS)]
+
+resting_players = []
+turn = 0
+
+while True:
+    if turn % 2 == 0:
+        current_player = first_player
+    else:
+        current_player = second_player
+
+    directions = list(input())
+    row, col = int(directions[1]), int(directions[4])
+
+    if current_player in resting_players:
+        resting_players.remove(current_player)
+        turn += 1
+        continue
+
+    if matrix[row][col] == 'E':
+        print(f"{current_player} found the Exit and wins the game!")
+        break
+
+    elif matrix[row][col] == 'T':
+        if current_player == first_player:
+            winner = second_player
+        else:
+            winner = first_player
+        print(f"{current_player} is out of the game! The winner is {winner}.")
+        break
+
+    elif matrix[row][col] == 'W':
+        print(f"{current_player} hits a wall and needs to rest.")
+        resting_players.append(current_player)
+    turn += 1
+    
