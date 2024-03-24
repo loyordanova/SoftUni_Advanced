@@ -1,0 +1,36 @@
+rows, cols = 6, 6
+
+matrix = []
+for row in range(rows):
+    matrix.append(input().split())
+
+directions = {'left': (0, -1), 'right': (0, 1), 'up': (-1, 0), 'down': (1, 0)}
+
+first_position = input()
+current_row, current_col = int(first_position[1]), int(first_position[4])
+
+command = input()
+while command != 'Stop':
+    command_type, direction, *value = command.split(', ')
+    next_row = current_row + directions[direction][0]
+    next_col = current_col + directions[direction][1]
+    if command_type == 'Create':
+        if matrix[next_row][next_col] == '.':
+            matrix[next_row][next_col] = value[0]
+
+    elif command_type == 'Update':
+        if matrix[next_row][next_col] != '.':
+            matrix[next_row][next_col] = value[0]
+
+    elif command_type == 'Read':
+        if matrix[next_row][next_col] != '.':
+            print(matrix[next_row][next_col])
+
+    elif command_type == 'Delete':
+        if matrix[next_row][next_col] != '.':
+            matrix[next_row][next_col] = '.'
+    current_row, current_col = next_row, next_col
+    command = input()
+
+for row in matrix:
+    print(*row)
