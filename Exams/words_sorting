@@ -1,0 +1,20 @@
+def words_sorting(*args):
+    words_dict = {}
+    for word in args:
+        ascii_value = sum([ord(x) for x in word])
+        words_dict[word] = words_dict.get(word, 0) + ascii_value
+
+    total_sum = sum([v for v in words_dict.values()])
+    if total_sum % 2 != 0:
+        sorted_words = sorted(words_dict.items(), key=lambda kvp: (-kvp[1], kvp[0]))
+    else:
+        sorted_words = sorted(words_dict.items(), key=lambda kvp: (kvp[0], kvp[1]))
+
+    return '\n'.join(f'{key} - {value}' for key, value in sorted_words)
+
+
+print(
+    words_sorting(
+        'cacophony',
+        'accolade'
+  ))
