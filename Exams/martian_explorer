@@ -1,0 +1,58 @@
+ROWS = 6
+COLS = 6
+
+matrix, rover_pos = [], None
+
+for r in range(ROWS):
+    matrix.append(input().split())
+    if 'E' in matrix[r]:
+        rover_pos = (r, matrix[r].index('E'))
+
+moves = input().split(', ')
+
+directions = {'left': (0, -1), 'right': (0, 1), 'up': (-1, 0), 'down': (1, 0)}
+
+inventory = []
+
+
+def check_valid_index(row, col):
+    if 0 <= row < ROWS and 0 <= col < COLS:
+        return True
+
+
+for move in moves:
+    row = rover_pos[0] + directions[move][0]
+    col = rover_pos[1] + directions[move][1]
+
+    if not check_valid_index(row, col):
+        if row >= ROWS:
+            row = 0
+        if row < 0:
+            row = ROWS - 1
+        if col >= COLS:
+            col = 0
+        if col < 0:
+            col = COLS - 1
+
+    if matrix[row][col] == 'W' or matrix[row][col] == 'M' or matrix[row][col] == 'C':
+        if matrix[row][col] == 'W':
+            print(f'Water deposit found at ({row}, {col})')
+            inventory.append('W')
+        elif matrix[row][col] == 'C':
+            print(f'Concrete deposit found at ({row}, {col})')
+            inventory.append('C')
+        else:
+            print(f'Metal deposit found at ({row}, {col})')
+            inventory.append('M')
+
+    elif matrix[row][col] == 'R':
+        print(f'Rover got broken at ({row}, {col})')
+        break
+
+    rover_pos = (row, col)
+
+print("Area suitable to start the colony." if 'M' in inventory
+                                              and 'W' in inventory
+                                              and 'C' in inventory
+      else "Area not suitable to start the colony.")
+
