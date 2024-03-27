@@ -1,0 +1,62 @@
+ROWS = 8
+COLS = 8
+
+matrix, white_pawn, black_pawn = [], None, None
+
+for row in range(ROWS):
+    matrix.append(input().split())
+
+    if 'w' in matrix[row]:
+        white_pawn = [row, matrix[row].index('w')]
+
+    if 'b' in matrix[row]:
+        black_pawn = [row, matrix[row].index('b')]
+
+row_map = {0: '8', 1: '7', 2: '6', 3: '5', 4: '4', 5: '3', 6: '2', 7: '1'}
+col_map = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h'}
+turn = 0
+
+
+def can_capture(attacker, defender):
+    row_a, col_a = attacker
+    row_d, col_d = defender
+
+    if row_a - 1 == row_d and col_a - 1 == col_d:
+        return True
+    elif row_a - 1 == row_d and col_a + 1 == col_d:
+        return True
+    elif row_a + 1 == row_d and col_a - 1 == col_d:
+        return True
+    elif row_a + 1 == row_d and col_a + 1 == col_d:
+        return True
+
+
+while True:
+
+    if turn % 2 == 0:
+        capture = can_capture(white_pawn, black_pawn)
+        if capture:
+            position = col_map[black_pawn[1]] + row_map[black_pawn[0]]
+            print(f"Game over! White win, capture on {position}.")
+            break
+
+        white_pawn[0] -= 1
+
+        if white_pawn[0] == 0:
+            print(f'Game over! White pawn is promoted to a queen at {col_map[white_pawn[1]] + row_map[white_pawn[0]]}.')
+            break
+
+    else:
+        capture = can_capture(black_pawn, white_pawn)
+        if capture:
+            position = col_map[white_pawn[1]] + row_map[white_pawn[0]]
+            print(f"Game over! Black win, capture on {position}.")
+            break
+
+        black_pawn[0] += 1
+
+        if black_pawn[0] == 7:
+            print(f'Game over! Black pawn is promoted to a queen at {col_map[black_pawn[1]] + row_map[black_pawn[0]]}.')
+            break
+
+    turn += 1
