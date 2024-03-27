@@ -1,0 +1,27 @@
+def start_spring(**kwargs):
+    collection = {}
+
+    for key, value in kwargs.items():
+        if value not in collection.keys():
+            collection[value] = []
+        collection[value].append(key)
+
+    sorted_collection = sorted(collection.items(), key=lambda kvp: (-len(kvp[1]), kvp[0]))
+
+    result = ''
+    for type, items in sorted_collection:
+        result += f'{type}:\n'
+        for item in sorted(items):
+            result += f'-{item}\n'
+
+    return result
+
+
+example_objects = {"Water Lilly": "flower",
+                   "Swifts": "bird",
+                   "Callery Pear": "tree",
+                   "Swallows": "bird",
+                   "Dahlia": "flower",
+                   "Tulip": "flower",}
+
+print(start_spring(**example_objects))
