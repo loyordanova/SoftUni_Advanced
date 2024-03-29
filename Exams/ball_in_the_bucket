@@ -1,0 +1,35 @@
+rows, cols = 6, 6
+
+matrix, coordinates = [], []
+
+for row in range(rows):
+    matrix.append(input().split())
+
+for turn in range(3):
+    coordinates.append(input().strip('()').split(', '))
+
+points = 0
+
+
+def check_valid_coordinates(r, c):
+    return 0 <= r < rows and 0 <= c < cols
+
+
+for coordinate in coordinates:
+    row, col = int(coordinate[0]), int(coordinate[1])
+    if check_valid_coordinates(row, col):
+        if matrix[row][col] == 'B':
+            points += sum(int(row[col]) if row[col].isdigit() else 0 for row in matrix if row[col] != 'B')
+            matrix[row][col] = 'o'
+prize = None
+if 100 <= points <= 199:
+    prize = 'Football'
+elif 200 <= points <= 299:
+    prize = 'Teddy Bear'
+elif points >= 300:
+    prize = 'Lego Construction Set'
+
+if points >= 100:
+    print(f"Good job! You scored {points} points, and you've won {prize}.")
+else:
+    print(f"Sorry! You need {100 - points} points more to win a prize.")
