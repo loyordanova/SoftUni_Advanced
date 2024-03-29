@@ -1,0 +1,59 @@
+rows, cols = [int(x) for x in input().split(', ')]
+
+matrix, santa_Pos, decoration, gifts, cookies = [], None, 0, 0, 0
+
+for row in range(rows):
+    matrix.append(input().split())
+    if 'Y' in matrix[row]:
+        santa_Pos = [row, matrix[row].index('Y')]
+
+directions = {'left': (0, -1), 'right': (0, 1), 'up': (-1, 0), 'down': (1, 0)}
+
+
+def check_borders(row, col):
+    if row > rows -1:
+        row = 0
+    if row < 0:
+        row = rows - 1
+    if col > cols - 1:
+        col = 0
+    if col < 0:
+        col = cols - 1
+    return row, col
+
+
+collected_all = False
+
+command = input()
+while command != 'End' and not collected_all:
+    direction, steps = command.split('-')
+    for step in range(int(steps)):
+        curr_row = directions[direction][0] + santa_Pos[0]
+        curr_col = directions[direction][1] + santa_Pos[1]
+        curr_row, curr_col = check_borders(curr_row, curr_col)
+        if matrix[curr_row][curr_col] == 'D':
+            decoration += 1
+        elif matrix[curr_row][curr_col] == 'G':
+            gifts += 1
+        elif matrix[curr_row][curr_col] == 'C':
+            cookies += 1
+
+        matrix[curr_row][curr_col] = 'Y'
+        matrix[santa_Pos[0]][santa_Pos[1]] = 'x'
+        santa_Pos[0], santa_Pos[1] = curr_row, curr_col
+
+        if all([x == "." or x == "x" or x == 'Y' for row_ in matrix for x in row_]):
+            collected_all = True
+            break
+
+    if not collected_all:
+        command = input()
+
+
+if collected_all:
+    print('Merry Christmas!')
+
+
+print(f"You've collected:\n- {decoration} Christmas decorations\n- {gifts} Gifts\n- {cookies} Cookies")
+for row in matrix:
+    print(*row)
