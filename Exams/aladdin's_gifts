@@ -1,0 +1,56 @@
+from collections import deque
+
+materials = [int(x) for x in input().split()]
+magic_lvl = deque([int(x) for x in input().split()])
+
+gifts = {'Diamond Jewellery': 0, 'Gemstone': 0, 'Gold': 0, 'Porcelain Sculpture': 0}
+
+
+def make_presents(present):
+    if 100 <= present <= 199:
+        gifts['Gemstone'] += 1
+    elif 200 <= present <= 299:
+        gifts['Porcelain Sculpture'] += 1
+    elif 300 <= present <= 399:
+        gifts['Gold'] += 1
+    elif 400 <= present <= 499:
+        gifts['Diamond Jewellery'] += 1
+
+    materials.pop()
+    magic_lvl.popleft()
+
+
+while magic_lvl and materials:
+    material = materials[-1]
+    magic = magic_lvl[0]
+    present = material + magic
+
+    if present < 100:
+        if present % 2 == 0:
+            material *= 2
+            magic *= 3
+            present = magic + material
+            make_presents(present)
+        else:
+            present *= 2
+            make_presents(present)
+    elif present > 499:
+        present /= 2
+        make_presents(present)
+    else:
+        make_presents(present)
+
+if gifts['Gemstone'] != 0 and gifts['Porcelain Sculpture'] != 0 or gifts['Gold'] != 0 and gifts['Diamond Jewellery'] != 0:
+    print("The wedding presents are made!")
+else:
+    print('Aladdin does not have enough wedding presents.')
+
+if materials:
+    print(f"Materials left: {', '.join(str(x) for x in materials)}")
+if magic_lvl:
+    print(f"Magic left: {', '.join(str(x) for x in magic_lvl)}")
+
+for mat, qty in gifts.items():
+    if qty != 0:
+        print(f'{mat}: {qty}')
+        
