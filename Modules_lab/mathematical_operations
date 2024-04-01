@@ -1,0 +1,4 @@
+from math_operations.math import calculate
+
+arguments = input().split()
+print(calculate(*arguments))
